@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 // components 
-import { BackgroundImage1, BackgroundImage2, FooterCon, FooterLink, GenerateQuetoButtonText, WhiteBackgroundCon, QuoteGeneratorButton, QuoteGeneratorCon, QuoteGeneratorInnerCon, QuoteGeneratorSubTitle, QuoteGeneratorTitle } from '../../components/quoteGenerator/quoteGenerator'
+import { BackgroundImage1, BackgroundImage2, FooterCon, FooterLink, GenerateQuetoButtonText, WhiteBackgroundCon, QuoteGeneratorButton, QuoteGeneratorCon, QuoteGeneratorInnerCon, QuoteGeneratorSubTitle, QuoteGeneratorTitle, FooterText } from '../../components/quoteGenerator/quoteGenerator'
 
 // assets
 import cloud1 from 'assets/cloud-and-thunder.png'
@@ -40,6 +40,7 @@ export default function Home() {
 
             <QuoteGeneratorSubTitle>
               Click the button below to generate a random quote! 
+              <br />
               provided by <FooterLink href="https://zenquotes.io/" target="_blank" rel="noopener noreferrer">ZenQuotes API</FooterLink>.
             </QuoteGeneratorSubTitle>
 
@@ -66,11 +67,12 @@ export default function Home() {
 
         {/* footer container */}
         <FooterCon>
-          <>
+          <FooterText>
             Quotes Generated: {numberOfQuotes}
-            <br />
+          </FooterText>
+          <div>
             Developed by <FooterLink href="https://github.com/cptbtptp01" target="_blank" rel="noopener noreferrer"> @huiru </FooterLink>
-          </>
+          </div>
         </FooterCon>
 
       </WhiteBackgroundCon>

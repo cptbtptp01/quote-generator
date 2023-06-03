@@ -5,10 +5,11 @@ import Image from "next/image";
 export const WhiteBackgroundCon = styled.div`
     background: white;
     background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    height: 100vh; /* view height */
-    width: 100vw;
-    position: absolute;
+    height: 100%; /* view height */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
 `;
 
 export const BackgroundImage1 = styled(Image)`
@@ -26,15 +27,24 @@ export const BackgroundImage2 = styled(Image)`
 `;
 
 export const FooterCon = styled.div`
-    width: 100vw;
+    width: 100%;
     height: 50px;
+    margin-top: 10px;
+    padding: 10px;
     text-align: center;
     font-family: 'Roboto Mono', monospace;
     font-size: 14px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
+    left: 0;
     color: black;
     z-index: 999999;
+`;
+
+export const FooterText = styled.div`
+    color: black;
+    font-family: 'Roboto Mono', monospace;
+    margin-bottom: 10px;
 `;
 
 export const FooterLink = styled(Link)`
@@ -91,6 +101,7 @@ export const QuoteGeneratorSubTitle = styled.div`
     // center at the top
     position: relative;
     width: 100%;
+    margin-top: 20px;
     // media query
     @media only screen and (max-width: 600px) {
         font-size: 12px;
@@ -102,6 +113,7 @@ export const QuoteGeneratorButton = styled.div`
     width: 120px;
     border: 2px solid darkgrey;
     border-radius: 3px;
+    background-color: transparent;
     
     margin-top: 20px;
     position: relative;
@@ -112,10 +124,7 @@ export const QuoteGeneratorButton = styled.div`
     transform-origin: center;
 
     &:hover {
-        filter: brightness(3);
-        transition: 0.2s all ease-in-out;
-        transform: scale(1.1);
-
+        background-color: darkgrey;
         transform-origin: center;
     }
 `;
