@@ -5,11 +5,12 @@ import Image from "next/image";
 export const WhiteBackgroundCon = styled.div`
     background: white;
     background-size: 400% 400%;
-    height: 100%; /* view height */
+    height: calc(100% - 15px); 
     width: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
 `;
 
 export const BackgroundImage1 = styled(Image)`
@@ -34,7 +35,7 @@ export const FooterCon = styled.div`
     text-align: center;
     font-family: 'Roboto Mono', monospace;
     font-size: 14px;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     color: black;

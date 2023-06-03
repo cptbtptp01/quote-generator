@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 
 import Head from 'next/head'
 import Image from 'next/image'
@@ -9,10 +9,60 @@ import { BackgroundImage1, BackgroundImage2, FooterCon, FooterLink, GenerateQuet
 // assets
 import cloud1 from 'assets/cloud-and-thunder.png'
 import cloud2 from 'assets/cloudy-weather.png'
+import { API } from 'aws-amplify'
+import { quoteQueryName } from '@/graphql/queries'
+import { GraphQLResult } from '@aws-amplify/api-graphql'
+
+// interface for dynamoDB object
+// define data fetched from dynamoDB
+interface UpdateQuoteInfoData {
+  id: string;
+  queryName: string;
+  quoteGenerated: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// type guard for fetch function
+function isGraphQLResultForquoteQueryName(response: any): response is GraphQLResult<{ 
+    quoteQueryName: { items: [UpdateQuoteInfoData] } 
+  }> {
+  return response.data && response.data.quoteQueryName && response.data.quoteQueryName.items;
+}
 
 export default function Home() {
   // HOME
+  // dynamic data
   const [numberOfQuotes, setNumberOfQuotes] = useState<Number | null>(0);
+
+  // async function before the return statement: fetch data from dynamoDB (quotes generated)
+  const updateQuoteInfo = async () => {
+    try {
+      const response = await API.graphql<UpdateQuoteInfoData>({
+        query: quoteQueryName,
+        authMode: 'AWS_IAM',
+        variables: { queryName: 'LIVE'},
+      })
+      // console.log('response from dynamoDB', response); // test if data is fetched
+
+      // check if response is of type GraphQLResult
+      if (!isGraphQLResultForquoteQueryName(response)) {
+        throw new Error('response is not of type GraphQLResult');
+      }
+      if (!response.data) {
+        throw new Error('response.data is undefined');
+      }
+
+      const receivedNumberOfQuotes = response.data.quoteQueryName.items[0].quoteGenerated;
+      setNumberOfQuotes(receivedNumberOfQuotes);
+
+    } catch (error) {
+      console.log('error fetching data from dynamoDB', error);
+    }
+  }
+
+  // invoke the function and unsubscribe after the first render
+  useEffect(() => { updateQuoteInfo() }, []);
 
   return (
     <>
@@ -45,7 +95,9 @@ export default function Home() {
             </QuoteGeneratorSubTitle>
 
             <QuoteGeneratorButton>
-              <GenerateQuetoButtonText onClick={null}> Get Inspired!
+              <GenerateQuetoButtonText 
+              // onClick={null}
+              > Get Inspired!
               </GenerateQuetoButtonText>
             </QuoteGeneratorButton>
 
@@ -68,7 +120,7 @@ export default function Home() {
         {/* footer container */}
         <FooterCon>
           <FooterText>
-            Quotes Generated: {numberOfQuotes}
+            Quotes Generated: {numberOfQuotes}  
           </FooterText>
           <div>
             Developed by <FooterLink href="https://github.com/cptbtptp01" target="_blank" rel="noopener noreferrer"> @huiru </FooterLink>
