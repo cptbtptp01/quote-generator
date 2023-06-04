@@ -2,6 +2,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 
+// material ui 
+import { Box, Paper, CircularProgress } from "@mui/material";
+
 export const WhiteBackgroundCon = styled.div`
     background: white;
     background-size: 400% 400%;
@@ -130,7 +133,7 @@ export const QuoteGeneratorButton = styled.div`
     }
 `;
 
-export const GenerateQuetoButtonText = styled.div`
+export const GenerateQuoteButtonText = styled.div`
     color: black;
     font-family: 'Roboto Mono', monospace;
     font-size: 14px;
@@ -140,4 +143,36 @@ export const GenerateQuetoButtonText = styled.div`
     position: absolute;
     width: 100%;
     text-align: center;
+`;
+
+export const QuoteGeneratorModalCon = styled(Box)`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vw;
+    height: 70vh;
+    border-radius: 3px;
+    border-color: white;
+
+    /* box-shadow: 24; */
+    /* transition: 0.2s all ease-in-out; */
+
+    background: rgb(255 255 255 / 100%);
+    box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
+    -webkit-backdrop-filter: blur( 20px );
+    backdrop-filter: blur( 0px );
+    -webkit-backdrop-filter: blur( 0px );
+    border-radius: 3px;
+
+    &:focus {
+    outline: none !important;
+    }
+`;
+
+export const QuoteGeneratorModalInnerCon = styled.div`
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: relative;
 `;
