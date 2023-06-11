@@ -6,3 +6,28 @@ Helpful resources:
 - Amplify CLI documentation: https://docs.amplify.aws/cli
 - More details on this folder & generated files: https://docs.amplify.aws/cli/reference/files
 - Join Amplify's community: https://amplify.aws/community/
+
+### IAM
+
+### graphql api
+- schema.graphql
+    - query (call lambda)
+    - public data (track user)
+- using appsync
+
+### auth
+
+### [function](/backend/function/quoteLambda/src/index.js)
+1. setup
+    - add dependencies in [package.json](/backend/function/quoteLambda/src/package.json): `@types/node`, `node-fetch`, `sharp`, `path`
+    - update function in amplify (access control): as the function is running, update the database 
+        - `amplify update function` -> storage -> read, update
+    - add aws package, image processing package
+2. function
+    - update DynamoDB table (async function)
+    - svg -> /base64
+    	- fetch a random quote
+    	- turn text of quote into lines (quote lines received)
+    	- turn text of author into a line (quote author)
+    	- turn elements into svg format (render)
+    	- svg -> **/base64 string**

@@ -3,18 +3,31 @@ import React, { use, useEffect, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
+
 // components 
-import { BackgroundImage1, BackgroundImage2, FooterCon, FooterLink, GenerateQuetoButtonText, WhiteBackgroundCon, QuoteGeneratorButton, QuoteGeneratorCon, QuoteGeneratorInnerCon, QuoteGeneratorSubTitle, QuoteGeneratorTitle, FooterText } from '../../components/quoteGenerator/quoteGenerator'
+import { BackgroundImage1, BackgroundImage2, FooterCon, FooterLink, GenerateQuoteButtonText, WhiteBackgroundCon, QuoteGeneratorButton, QuoteGeneratorCon, QuoteGeneratorInnerCon, QuoteGeneratorSubTitle, QuoteGeneratorTitle, FooterText } from '../../components/quoteGenerator/quoteGeneratorElements'
+import QuoteGeneratorModal from '../../components/quoteGenerator'
 
 // assets
 import cloud1 from 'assets/cloud-and-thunder.png'
 import cloud2 from 'assets/cloudy-weather.png'
+
+// aws
 import { API } from 'aws-amplify'
-import { quoteQueryName } from '@/graphql/queries'
+import { generateAQuote, quoteQueryName } from '@/graphql/queries'
 import { GraphQLResult } from '@aws-amplify/api-graphql'
+import { GenerateAQuoteQuery } from '@/API'
+
+// interface for appSync <> lambda json response
+interface GenerateAQuoteData {
+  generateAQuote: {
+    statusCode: number;
+    headers: { [key: string]: string };
+    body: string;
+  }
+}
 
 // interface for dynamoDB object
-// define data fetched from dynamoDB
 interface UpdateQuoteInfoData {
   id: string;
   queryName: string;
@@ -24,16 +37,59 @@ interface UpdateQuoteInfoData {
 }
 
 // type guard for fetch function
-function isGraphQLResultForquoteQueryName(response: any): response is GraphQLResult<{ 
-    quoteQueryName: { items: [UpdateQuoteInfoData] } 
-  }> {
+function isGraphQLResultForquoteQueryName(response: any): response is GraphQLResult<{
+  quoteQueryName: { items: [UpdateQuoteInfoData] }
+}> {
   return response.data && response.data.quoteQueryName && response.data.quoteQueryName.items;
 }
 
 export default function Home() {
-  // HOME
+
   // dynamic data
   const [numberOfQuotes, setNumberOfQuotes] = useState<Number | null>(0);
+  // modal state
+  const [openGenerator, setOpenGenerator] = useState(false);
+  const [processingQuote, setProcessingQuote] = useState(false);
+  // function to speak to lambda, passing in the quote
+  const [quoteReceived, setQuoteReceived] = useState<string | null>(null);
+  
+  // function to open & close modal
+  const handleOpenGenerator = async (e: React.SyntheticEvent) => {
+    e.preventDefault(); // prevent page from reloading
+    setOpenGenerator(true);
+    setProcessingQuote(true);
+    try {
+      // run lambda function
+      const runFunction = "runFunction";
+      const runFunctionStringified = JSON.stringify(runFunction);
+      const response = await API.graphql<GenerateAQuoteData>({
+        query: generateAQuote,
+        authMode: 'AWS_IAM',
+        variables: { input: runFunctionStringified },
+      });
+      const responseStringified = JSON.stringify(response);
+      const responseReStringified = JSON.stringify(responseStringified);
+      const bodyIndex = responseReStringified.indexOf('body=') + 5;
+      const bodyAndBase64 = responseReStringified.substring(bodyIndex);
+      const bodyArray = bodyAndBase64.split(',');
+      const body = bodyArray[0];
+      console.log('response from lambda', body); // test if data is fetched
+      setQuoteReceived(body);
+      // end state
+      setProcessingQuote(false);
+
+      // fetch if any new quotes are generated from counter
+      updateQuoteInfo();
+
+      // setTimeout(() => {
+      //   setProcessingQuote(false);
+      // }, 3000);
+    } catch (error) {
+      console.log('error generating quote', error);
+      setProcessingQuote(false);
+    } 
+  }
+  const closeGenerator = () => setOpenGenerator(false);
 
   // async function before the return statement: fetch data from dynamoDB (quotes generated)
   const updateQuoteInfo = async () => {
@@ -41,9 +97,9 @@ export default function Home() {
       const response = await API.graphql<UpdateQuoteInfoData>({
         query: quoteQueryName,
         authMode: 'AWS_IAM',
-        variables: { queryName: 'LIVE'},
+        variables: { queryName: 'LIVE' },
       })
-      // console.log('response from dynamoDB', response); // test if data is fetched
+      console.log('response from dynamoDB', response); // test if data is fetched
 
       // check if response is of type GraphQLResult
       if (!isGraphQLResultForquoteQueryName(response)) {
@@ -77,10 +133,16 @@ export default function Home() {
       <WhiteBackgroundCon>
 
         {/* quote generator modal pop-up */}
-        {/* <QuoteGeneratorModal 
-        /> */}
+        <QuoteGeneratorModal
+          open={openGenerator}
+          close={closeGenerator}
+          processingQuote={processingQuote}
+          setProcessingQuote={setProcessingQuote}
+          quoteReceived={quoteReceived}
+          setQuoteReceived={setQuoteReceived}
+        />
 
-        {/* quote generator */}
+        {/* quote generator landing part */}
         <QuoteGeneratorCon>
           <QuoteGeneratorInnerCon>
 
@@ -89,16 +151,18 @@ export default function Home() {
             </QuoteGeneratorTitle>
 
             <QuoteGeneratorSubTitle>
-              Click the button below to generate a random quote! 
+              Click the button below to generate a random quote!
               <br />
               provided by <FooterLink href="https://zenquotes.io/" target="_blank" rel="noopener noreferrer">ZenQuotes API</FooterLink>.
             </QuoteGeneratorSubTitle>
 
-            <QuoteGeneratorButton>
-              <GenerateQuetoButtonText 
-              // onClick={null}
-              > Get Inspired!
-              </GenerateQuetoButtonText>
+            {/* invoke modal */}
+            <QuoteGeneratorButton onClick={handleOpenGenerator}>
+
+              <GenerateQuoteButtonText>
+                Get Inspired!
+              </GenerateQuoteButtonText>
+
             </QuoteGeneratorButton>
 
           </QuoteGeneratorInnerCon>
@@ -120,7 +184,7 @@ export default function Home() {
         {/* footer container */}
         <FooterCon>
           <FooterText>
-            Quotes Generated: {numberOfQuotes}  
+            Quotes Generated: {numberOfQuotes}
           </FooterText>
           <div>
             Developed by <FooterLink href="https://github.com/cptbtptp01" target="_blank" rel="noopener noreferrer"> @huiru </FooterLink>
