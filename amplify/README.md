@@ -40,3 +40,6 @@ Helpful resources:
         - the string will then be decoded at the front end 
 
 ### run test & debug in lambda
+- package.json
+    + add build scripts for sharp
+    + edit build settings in the cloud
