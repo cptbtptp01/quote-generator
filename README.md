@@ -13,7 +13,7 @@ user -request-> appSync -GraphQL-> AWS lambda -> generate base64 string -> image
 - [global style](/src/styles/global.css): fonts, general styles 
 - [customized component](/components)
 
-### page element structure
+### index.tsx in pages/
 1. [landing page(parent)](/src/pages/index.tsx)
 	- project title, intro, credits
 	- button (invoke modal)
@@ -26,13 +26,17 @@ user -request-> appSync -GraphQL-> AWS lambda -> generate base64 string -> image
 2. [modal](/components/quoteGenerator/index.tsx) (display random qoute)
 	- assign fields and pass to child 
 		- handle open
+			+ query from amplify api
+			+ retrieve the result from lambda function
+			+ pass to child component (ImageBlob)
 		- close
 		- set & processing data
 		- set & receiving data
 	- lambda related fields: quote received, url(**/base64 string**)
 	- configure states
 		- processing + quote is empty: loading page + timeout()
-		- quote states fulfilled: return result to user (using [ImageBlob](component/quoteGenerator/imageBlob.tsx) component)
+		- quote states fulfilled: return result to user 
+	- client will get the decoded image
 
 ## aws amplify CLI
 

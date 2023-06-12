@@ -17,17 +17,26 @@ Helpful resources:
 
 ### auth
 
-### [function](/backend/function/quoteLambda/src/index.js)
+### working on lambda [function](/backend/function/quoteLambda/src/index.js)
 1. setup
     - add dependencies in [package.json](/backend/function/quoteLambda/src/package.json): `@types/node`, `node-fetch`, `sharp`, `path`
+        + _note: be careful when install sharp for `serverless-esbuild`_
     - update function in amplify (access control): as the function is running, update the database 
         - `amplify update function` -> storage -> read, update
-    - add aws package, image processing package
+        - got environment variable generated from amplify
+    - add aws package(`require('aws-sdk')`), 
+    - create new dynamoDB document client `new AWS.DynamoDB.DocumentClient()`
+    - add image processing package
 2. function
-    - update DynamoDB table (async function)
-    - svg -> /base64
+    - __update DynamoDB table__ (async function)
+        + when a new item is created, increment by 1
+        + the updated value will then pass to the webpage, to update the 'Quote Generated'
+    - __svg -> /base64__
     	- fetch a random quote
     	- turn text of quote into lines (quote lines received)
     	- turn text of author into a line (quote author)
     	- turn elements into svg format (render)
     	- svg -> **/base64 string**
+        - the string will then be decoded at the front end 
+
+### run test & debug in lambda

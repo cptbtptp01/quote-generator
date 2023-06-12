@@ -53,7 +53,7 @@ export default function Home() {
   // function to speak to lambda, passing in the quote
   const [quoteReceived, setQuoteReceived] = useState<string | null>(null);
   
-  // function to open & close modal
+  //* function to open & close modal *//
   const handleOpenGenerator = async (e: React.SyntheticEvent) => {
     e.preventDefault(); // prevent page from reloading
     setOpenGenerator(true);
@@ -89,7 +89,11 @@ export default function Home() {
       setProcessingQuote(false);
     } 
   }
-  const closeGenerator = () => setOpenGenerator(false);
+  const closeGenerator = () => {
+    setOpenGenerator(false);
+    setProcessingQuote(false);
+    setQuoteReceived(null);
+  };
 
   // async function before the return statement: fetch data from dynamoDB (quotes generated)
   const updateQuoteInfo = async () => {
