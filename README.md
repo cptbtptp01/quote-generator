@@ -77,4 +77,11 @@ user -request-> appSync -GraphQL-> AWS lambda -> generate base64 string -> image
 	- turn elements into svg format (render)
 	- svg -> **/base64 string**
 
+## deploy
+- code -> github-main branch
+- code prod -> github commit to a specific branch -> run build in aws
+- `amplify add hosting` aws build -> user
+- Enable full-stack continuous deployments (CI/CD)
+- debug
+
 
