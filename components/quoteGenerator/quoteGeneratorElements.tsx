@@ -67,7 +67,6 @@ export const QuoteGeneratorCon = styled.div`
     min-width: 350px;
     height: 70vh;
     width: 70vw;
-    border-radius: 0px;
     //center
     top: 50%;
     left: 50%;
@@ -153,12 +152,17 @@ export const GenerateQuoteButtonText = styled.div`
 `;
 
 export const QuoteGeneratorModalCon = styled(Box)`
-    position: absolute;
+    min-height: 350px;
+    min-width: 350px;
+    height: 70vh;
+    width: 70vw;
+    border-radius: 0px;
+    border: 1px solid black;
+    //center
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 70vw;
-    height: 70vh;
+    position: absolute;
     box-shadow: 24;
   /* transition: 0.2s all ease-in-out; */
 

@@ -198,15 +198,10 @@ export default function Home() {
           </QuoteGeneratorInnerCon>
         </QuoteGeneratorCon>
 
-        {/* Background Images */}
-        <BackgroundImage1 src={cloud1} height="300" alt="cloudybackground1" />
-
-        <BackgroundImage2 src={cloud2} height="250" alt="cloudybackground2" />
-
         {/* footer container */}
         <FooterCon>
           <FooterText>
-            Quotes Generated: {numberOfQuotes !== null ? numberOfQuotes : 'Loading...'}
+            Quotes Generated: {numberOfQuotes}
             </FooterText>
 
           <div>
