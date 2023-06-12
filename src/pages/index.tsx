@@ -202,9 +202,7 @@ export default function Home() {
         <FooterCon>
           <FooterText>
             Quotes Generated: {numberOfQuotes}
-            </FooterText>
-
-          <div>
+            </FooterText> 
             Developed by{" "}
             <FooterLink
               href="https://github.com/cptbtptp01"
@@ -214,7 +212,6 @@ export default function Home() {
               {" "}
               @huiru{" "}
             </FooterLink>
-          </div>
         </FooterCon>
       </WhiteBackgroundCon>
     </>

@@ -121,7 +121,7 @@ export const QuoteGeneratorSubTitle = styled.div`
 export const QuoteGeneratorButton = styled.div`
     height: 30px;
     width: 120px;
-    border: 2px solid darkgrey;
+    border: 1.5px solid darkgrey;
     border-radius: 3px;
     background-color: transparent;
 
@@ -164,6 +164,7 @@ export const QuoteGeneratorModalCon = styled(Box)`
     transform: translate(-50%, -50%);
     position: absolute;
     box-shadow: 24;
+    z-index: 3;
   /* transition: 0.2s all ease-in-out; */
 
     background: rgb(255 255 255 / 100%);
@@ -206,3 +207,14 @@ export const RelativeImage = styled.img`
     margin-bottom: 5px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
     `;
+
+export const DownloadLink = styled.a`
+    text-decoration: underline;
+    cursor: pointer;
+    transition: 0.3s all ease-in-out;
+
+    &:hover {
+    cursor: pointer;
+    color: darkgrey;
+    }
+`;

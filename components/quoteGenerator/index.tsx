@@ -5,6 +5,7 @@ import { Backdrop, Fade, Modal, Grow } from "@mui/material";
 
 // components
 import {
+    DownloadLink,
     FooterLink,
     GenerateQuoteButtonText,
     ImageBlobCon,
@@ -91,16 +92,12 @@ const QuoteGeneratorModal = ({
                     {quoteReceived !== null && (
                         <>
                             <QuoteGeneratorTitle>
-                                Quote Generated!
+                                Quote Generated! <DownloadLink onClick={handleDownload}>Click to Download</DownloadLink>
                             </QuoteGeneratorTitle>
                             <ImageBlobCon>
                                 <ImageBlob quoteReceived={quoteReceived} blobUrl={blobUrl} />
                             </ImageBlobCon>
-                            <QuoteGeneratorButton onClick={handleDownload}>
-                                    <GenerateQuoteButtonText>
-                                        Download
-                                    </GenerateQuoteButtonText>
-                                </QuoteGeneratorButton>
+                            
                         </>
                     )}
                 </QuoteGeneratorModalInnerCon>
