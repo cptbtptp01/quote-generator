@@ -4,6 +4,7 @@ import Image from "next/image";
 
 // material ui
 import { Box, Paper } from "@mui/material";
+import exp from "constants";
 
 export const WhiteBackgroundCon = styled.div`
     background: white;
@@ -118,39 +119,6 @@ export const QuoteGeneratorSubTitle = styled.div`
     }
 `;
 
-export const QuoteGeneratorButton = styled.div`
-    height: 30px;
-    width: 120px;
-    border: 1.5px solid darkgrey;
-    border-radius: 3px;
-    background-color: transparent;
-
-    margin-top: 20px;
-    position: relative;
-    transition: 0.2s all ease-in-out;
-    cursor: pointer;
-    top: 20px;
-    margin: auto;
-    transform-origin: center;
-
-    &:hover {
-        background-color: darkgrey;
-        transform-origin: center;
-    }
-`;
-
-export const GenerateQuoteButtonText = styled.div`
-    color: black;
-    font-family: "Roboto Mono", monospace;
-    font-size: 14px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    width: 100%;
-    text-align: center;
-`;
-
 export const QuoteGeneratorModalCon = styled(Box)`
     min-height: 350px;
     min-width: 350px;
@@ -217,4 +185,72 @@ export const DownloadLink = styled.a`
     cursor: pointer;
     color: darkgrey;
     }
+`;
+
+//search bar
+export const SearchBarCon = styled.div`
+    height: 30px;
+    width: 100%;
+    border: 1px solid darkgrey;
+    border-radius: 3px;
+    background-color: transparent;
+    margin-top: 30px;
+    position: relative;
+`;
+
+export const SearchBarInput = styled.input`
+    height: 100%;
+    width: 100%;
+    border: none;
+    border-radius: 3px;
+    background-color: transparent;
+    font-family: "Roboto Mono", monospace;
+    font-size: 14px;
+    color: black;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+`;
+
+// button
+export const QuoteGeneratorButton = styled.div`
+    height: 30px;
+    width: 120px;
+    border: 1px solid darkgrey;
+    border-radius: 3px;
+    background-color: transparent;
+
+    /* margin-top: 20px; */
+    position: relative;
+    transition: 0.2s all ease-in-out;
+    cursor: pointer;
+    top: 20px;
+    transform-origin: center;
+
+    &:hover {
+        background-color: darkgrey;
+        transform-origin: center;
+    }
+`;
+
+export const GenerateQuoteButtonText = styled.div`
+    color: black;
+    font-family: "Roboto Mono", monospace;
+    font-size: 14px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 100%;
+    text-align: center;
+`;
+
+export const ButtonCon = styled.div`
+    gap: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    position: relative;
 `;

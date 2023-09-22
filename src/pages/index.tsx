@@ -18,6 +18,9 @@ import {
   QuoteGeneratorSubTitle,
   QuoteGeneratorTitle,
   FooterText,
+  SearchBarCon,
+  SearchBarInput,
+  ButtonCon,
 } from "../../components/quoteGenerator/quoteGeneratorElements";
 import QuoteGeneratorModal from "../../components/quoteGenerator";
 
@@ -63,6 +66,12 @@ function isGraphQLResultForquoteQueryName(
 }
 
 export default function Home() {
+  // search feature
+  const [searchQuery, setSearchQuery] = useState<String>("");
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
   // dynamic data
   const [numberOfQuotes, setNumberOfQuotes] = useState<number | null>(0);
   // modal state
@@ -177,31 +186,42 @@ export default function Home() {
               Your Daily Quote Generator
             </QuoteGeneratorTitle>
 
-            <QuoteGeneratorSubTitle>
-              Click the button below to generate a random quote!
-              <br />
-              provided by{" "}
-              <FooterLink
-                href="https://zenquotes.io/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                ZenQuotes API
-              </FooterLink>
-              .
-            </QuoteGeneratorSubTitle>
+            {/* search bar */}
+            <SearchBarCon>
+              <SearchBarInput 
+                type= "text" 
+                placeholder="Search for a quote" 
+                // value={searchQuery}
+                onChange={handleSearchInputChange}
+            />
+            </SearchBarCon>
 
             {/* invoke modal */}
-            <QuoteGeneratorButton onClick={handleOpenGenerator}>
-              <GenerateQuoteButtonText>Get Inspired!</GenerateQuoteButtonText>
-            </QuoteGeneratorButton>
+            {/* TODO: implement search button */}
+            <ButtonCon>
+              <QuoteGeneratorButton> 
+                <GenerateQuoteButtonText>Search</GenerateQuoteButtonText>
+              </QuoteGeneratorButton>
+
+              <QuoteGeneratorButton onClick={handleOpenGenerator}>
+                <GenerateQuoteButtonText>Get Inspired!</GenerateQuoteButtonText>
+              </QuoteGeneratorButton>
+            </ButtonCon>
+
           </QuoteGeneratorInnerCon>
         </QuoteGeneratorCon>
 
         {/* footer container */}
         <FooterCon>
           <FooterText>
-            Quotes Generated: {numberOfQuotes}
+            Quotes Generated: {numberOfQuotes} (Powered by{" "}
+            <FooterLink
+              href="https://zenquotes.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ZenQuotes API)
+            </FooterLink>
             </FooterText> 
             Developed by{" "}
             <FooterLink
