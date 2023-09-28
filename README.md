@@ -1,5 +1,7 @@
+# Updates
+- To view an integration of the app, please go to [here](https://github.com/cptbtptp01/inspirational-quote)
+- To view the updated demo, please go to [here](https://inspirational-quotes-16ab0254ba13.herokuapp.com/)
 # A Simple Quote Generator!
-
 user -request-> appSync -GraphQL-> AWS lambda -> generate base64 string -> image(result)
 
 ## framework set up
